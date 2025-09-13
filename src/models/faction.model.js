@@ -16,6 +16,19 @@ const FactionSchema = new Schema(
       type: Number,
       required: true,
     },
+    military_forces: {
+      astartes_chapter: {
+        type: String,
+      },
+      imperial_regiment: {
+        type: String,
+        required: true,
+      },
+      adeptus_titanicus: {
+        type: String,
+        enum: ["available", "unavailable"],
+      },
+    },
   },
   {
     versionKey: false,
