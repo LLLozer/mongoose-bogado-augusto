@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 export const WeaponSchema = new Schema(
   {
@@ -18,6 +18,11 @@ export const WeaponSchema = new Schema(
     kill_count: {
       type: Number,
     },
+    bearer: {
+      type: Types.ObjectId,
+      ref: "Character",
+      required: true,
+    }
   },
   {
     versionKey: false,

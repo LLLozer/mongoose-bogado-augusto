@@ -1,0 +1,7 @@
+Relaciones:
+
+1:1 - Una faction debe tener un character, y un character debe pertenecer a una faction
+1:N - Un character puede tener muchas weapons, y muchas weapons pueden pertenecer a un character
+N:M - Un character puede tener muchos jobs, y un job puede pertenecer a muchos characters
+
+Faction: uso de documento embebido para military_forces, ya que las fuerzas militares son un campo intrínseco de una facción. 

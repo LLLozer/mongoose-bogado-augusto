@@ -1,26 +1,28 @@
 import { CharacterModel } from "../models/character.model.js";
 
 export const createCharacter = async (req, res) => {
-  const { character_name, race, mutations, psyker } = req.body;
+  const { character_name, race, mutations, psyker, affiliation } = req.body;
   try {
     const newCharacter = await CharacterModel.create({
       character_name: character_name,
       race: race,
       mutations: mutations,
       psyker: psyker,
+      affiliation: affiliation,
     });
     res.status(201).json({
       msg: "Personaje creado correctamente",
       newCharacter,
     });
   } catch (error) {
-    return res.status(500).json("Error interno del servidor");
+    console.log(error)
+    return res.status(500).json("Error interno del servidor", error);
   }
 };
 
 export const getAllCharacters = async (req, res) => {
   try {
-    const listAll = await CharacterModel.find();
+    const listAll = await CharacterModel.find().populate("affiliation");
     res.status(200).json({
       msg: "Listando todos los personajes",
       listAll,
@@ -33,7 +35,7 @@ export const getAllCharacters = async (req, res) => {
 export const getCharacterById = async (req, res) => {
   const { id } = req.params;
   try {
-    const findID = await CharacterModel.findById(id);
+    const findID = await CharacterModel.findById(id).populate("affiliation");
     res.status(200).json({
       msg: "Personaje encontrado",
       findID,
@@ -44,7 +46,7 @@ export const getCharacterById = async (req, res) => {
 };
 
 export const updateCharacter = async (req, res) => {
-  const { character_name, race, mutations, psyker } = req.body;
+  const { character_name, race, mutations, psyker, affiliation } = req.body;
   const { id } = req.params;
   try {
     const updatedCharacter = await CharacterModel.findByIdAndUpdate(
@@ -54,6 +56,7 @@ export const updateCharacter = async (req, res) => {
         race,
         mutations,
         psyker,
+        affiliation,
       },
       { new: true }
     );

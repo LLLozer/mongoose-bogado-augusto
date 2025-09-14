@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 export const CharacterSchema = new Schema(
   {
@@ -18,6 +18,12 @@ export const CharacterSchema = new Schema(
     psyker: {
       type: Boolean,
       required: true,
+    },
+    affiliation: {
+      type: Types.ObjectId,
+      ref: "Faction",
+      required: true,
+      unique: true,
     },
   },
   {
