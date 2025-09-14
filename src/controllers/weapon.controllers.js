@@ -21,7 +21,10 @@ export const createWeapon = async (req, res) => {
 
 export const getAllWeapons = async (req, res) => {
   try {
-    const listAll = await WeaponModel.find().populate("bearer");
+    // El deleted: {$ne: true} excluye a las armas que hayan sido actualizadas por el softDelete//
+    const listAll = await WeaponModel.find({ deleted: { $ne: true } }).populate(
+      "bearer"
+    );
     res.status(200).json({
       msg: "Listando todas las armas",
       listAll,
@@ -77,6 +80,23 @@ export const deleteWeapon = async (req, res) => {
     res.status(200).json({
       msg: "Arma eliminada correctamente",
       deletedWeapon,
+    });
+  } catch (error) {
+    return res.status(500).json("Error interno del servidor", error);
+  }
+};
+
+// Busca un arma por ID, y actualiza su atributo deleted a true//
+
+export const softDeleteWeapon = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const logicDelWeapon = await WeaponModel.findByIdAndUpdate(id, {
+      deleted: true,
+    });
+    res.status(200).json({
+      msg: "Arma eliminada de manera lógica",
+      logicDelWeapon,
     });
   } catch (error) {
     return res.status(500).json("Error interno del servidor", error);

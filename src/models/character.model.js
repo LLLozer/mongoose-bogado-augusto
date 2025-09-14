@@ -25,6 +25,13 @@ export const CharacterSchema = new Schema(
       required: true,
       unique: true,
     },
+    jobs: [
+      {
+        type: Types.ObjectId,
+        ref: "Job",
+        required: true,
+      },
+    ],
   },
   {
     versionKey: false,

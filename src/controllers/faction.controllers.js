@@ -27,7 +27,8 @@ export const createFaction = async (req, res) => {
 
 export const getAllFactions = async (req, res) => {
   try {
-    const listAll = await FactionModel.find();
+    //el populate en este caso es para referenciar a characters, referencia que fue creada en el modelo faction usando virtual"//
+    const listAll = await FactionModel.find().populate("characters");
     res.status(200).json({
       msg: "Listando todas las facciones",
       listAll,
@@ -40,7 +41,7 @@ export const getAllFactions = async (req, res) => {
 export const getFactionById = async (req, res) => {
   const { id } = req.params;
   try {
-    const findID = await FactionModel.findById(id);
+    const findID = await FactionModel.findById(id).populate("characters");
     res.status(200).json({
       msg: "Facción encontrada",
       findID,

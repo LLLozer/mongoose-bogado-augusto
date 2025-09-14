@@ -1,7 +1,7 @@
 import { CharacterModel } from "../models/character.model.js";
 
 export const createCharacter = async (req, res) => {
-  const { character_name, race, mutations, psyker, affiliation } = req.body;
+  const { character_name, race, mutations, psyker, affiliation, jobs } = req.body;
   try {
     const newCharacter = await CharacterModel.create({
       character_name: character_name,
@@ -9,6 +9,7 @@ export const createCharacter = async (req, res) => {
       mutations: mutations,
       psyker: psyker,
       affiliation: affiliation,
+      jobs: jobs,
     });
     res.status(201).json({
       msg: "Personaje creado correctamente",
@@ -22,7 +23,7 @@ export const createCharacter = async (req, res) => {
 
 export const getAllCharacters = async (req, res) => {
   try {
-    const listAll = await CharacterModel.find().populate("affiliation");
+    const listAll = await CharacterModel.find().populate("affiliation").populate("jobs");
     res.status(200).json({
       msg: "Listando todos los personajes",
       listAll,
@@ -35,7 +36,7 @@ export const getAllCharacters = async (req, res) => {
 export const getCharacterById = async (req, res) => {
   const { id } = req.params;
   try {
-    const findID = await CharacterModel.findById(id).populate("affiliation");
+    const findID = await CharacterModel.findById(id).populate("affiliation").populate("jobs");
     res.status(200).json({
       msg: "Personaje encontrado",
       findID,
@@ -46,7 +47,7 @@ export const getCharacterById = async (req, res) => {
 };
 
 export const updateCharacter = async (req, res) => {
-  const { character_name, race, mutations, psyker, affiliation } = req.body;
+  const { character_name, race, mutations, psyker, affiliation, jobs } = req.body;
   const { id } = req.params;
   try {
     const updatedCharacter = await CharacterModel.findByIdAndUpdate(
@@ -57,6 +58,7 @@ export const updateCharacter = async (req, res) => {
         mutations,
         psyker,
         affiliation,
+        jobs,
       },
       { new: true }
     );
@@ -65,6 +67,7 @@ export const updateCharacter = async (req, res) => {
       updatedCharacter,
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json("Error interno del servidor", error);
   }
 };

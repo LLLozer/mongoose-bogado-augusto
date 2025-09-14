@@ -22,7 +22,11 @@ export const WeaponSchema = new Schema(
       type: Types.ObjectId,
       ref: "Character",
       required: true,
-    }
+    },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     versionKey: false,
