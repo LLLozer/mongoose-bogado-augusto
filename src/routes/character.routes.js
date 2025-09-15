@@ -5,6 +5,7 @@ import {
   getCharacterById,
   updateCharacter,
   deleteCharacter,
+  addJobToCharacter,
 } from "../controllers/character.controllers.js";
 
 export const characterRoutes = Router();
@@ -14,5 +15,6 @@ characterRoutes.get("/characters", getAllCharacters);
 characterRoutes.get("/characters/:id", getCharacterById);
 characterRoutes.put("/characters/:id", updateCharacter);
 characterRoutes.delete("/characters/:id", deleteCharacter);
+characterRoutes.patch("/characters/:characterID/jobs/:jobID", addJobToCharacter)
 
 export default characterRoutes
