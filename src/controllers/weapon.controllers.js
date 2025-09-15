@@ -73,19 +73,6 @@ export const updateWeapon = async (req, res) => {
   }
 };
 
-export const deleteWeapon = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const deletedWeapon = await WeaponModel.findByIdAndDelete(id);
-    res.status(200).json({
-      msg: "Arma eliminada correctamente",
-      deletedWeapon,
-    });
-  } catch (error) {
-    return res.status(500).json("Error interno del servidor", error);
-  }
-};
-
 // Busca un arma por ID, y actualiza su atributo deleted a true//
 
 export const softDeleteWeapon = async (req, res) => {

@@ -1,9 +1,10 @@
+import { CharacterModel } from "../models/character.model.js";
 import { FactionModel } from "../models/faction.model.js";
 
 export const createFaction = async (req, res) => {
   const { faction_name, racism, members, military_forces } = req.body;
   try {
-    if (!military_forces) {
+    if (!military_forces.imperial_regiment) {
       return res.status(406).json({
         msg: "Error: Se requiere al menos un regimiento de la guardia imperial",
         error: "Not acceptable",
@@ -78,8 +79,9 @@ export const deleteFaction = async (req, res) => {
   const { id } = req.params;
   try {
     const deletedFaction = await FactionModel.findByIdAndDelete(id);
+    await CharacterModel.deleteMany({ affiliation: id });
     res.status(200).json({
-      msg: "Facción eliminada correctamente",
+      msg: "Facción y personajes eliminados correctamente",
       deletedFaction,
     });
   } catch (error) {
